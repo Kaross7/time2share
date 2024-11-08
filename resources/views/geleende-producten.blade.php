@@ -16,7 +16,7 @@
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
         <div class="bg-white shadow-sm sm:rounded-lg p-6">
-            <h2 class="text-2xl font-semibold mb-4">Jouw producten</h2>
+            <h2 class="text-2xl font-semibold mb-4">Jouw geleende producten</h2>
 
             <div class="space-y-4">
                 @foreach ($products as $product)
@@ -30,23 +30,23 @@
                             <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" class="mt-2 w-32 h-32 object-cover">
                         @endif
 
-                        <!-- Toon bericht als product uitgeleend is -->
-                        @if ($product->borrower_id != NULL)
-                            <p class="text-red-500 mt-3">
-                                Dit product is uitgeleend tot {{ \Carbon\Carbon::parse($product->end_date)->format('d-m-Y') }}.
-                            </p>
-                        @endif
-
-                        <!-- Knop om de teruggave van het product door de lener te bevestigen -->
-                        @if ($product->user_id == auth()->id() && $product->status == 'teruggegeven_lener')
+                        @if ($product->status == 'uitgeleend' && $product->borrower_id == auth()->id())
+                            <form action="{{ route('product.teruggeven', $product->id) }}" method="POST" class="mt-4">
+                                @csrf
+                                <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">
+                                    Geef product eerder terug
+                                </button>
+                            </form>
+                        @elseif ($product->user_id == auth()->id() && $product->status == 'teruggegeven_lener')
                             <form action="{{ route('product.bevestig-teruggeven', $product->id) }}" method="POST" class="mt-4">
                                 @csrf
                                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
                                     Bevestig teruggegeven
                                 </button>
                             </form>
-                        @elseif ($product->user_id == auth()->id() && $product->borrower_id == NULL)
-                            <!-- De uitlener kan het product verwijderen als het niet uitgeleend is -->
+                        @endif
+
+                        @if ($product->user_id == auth()->id() && !in_array($product->status, ['uitgeleend', 'teruggegeven_lener']))
                             <form action="{{ route('product.destroy', $product->id) }}" method="POST" class="mt-4">
                                 @csrf
                                 @method('DELETE')
@@ -54,6 +54,10 @@
                                     Verwijder
                                 </button>
                             </form>
+                        @elseif ($product->status == 'uitgeleend')
+                            <p class="text-red-500 mt-3">
+                                Dit product is geleend tot {{ \Carbon\Carbon::parse($product->end_date)->format('d-m-Y') }}.
+                            </p>
                         @endif
 
                     </div>

@@ -14,7 +14,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <!-- Dashboard Link -->
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Uitgeleende Producten') }}
                     </x-nav-link>
 
                     <!-- Uitleenmarkt Link -->
@@ -26,6 +26,11 @@
                     <x-nav-link :href="route('leen-jouw-producten')" :active="request()->routeIs('leen-jouw-producten')">
                         {{ __('Leen Jouw Producten') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('geleende-producten')" :active="request()->routeIs('geleende-producten')">
+                        {{ __('Jouw Geleende Producten') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 
@@ -90,6 +95,11 @@
             <x-responsive-nav-link :href="route('leen-jouw-producten')" :active="request()->routeIs('leen-jouw-producten')">
                 {{ __('Leen Jouw Producten') }}
             </x-responsive-nav-link>
+            
+            <x-responsive-nav-link :href="route('geleende-producten')" :active="request()->routeIs('geleende-producten')">
+                {{ __('Jouw Geleende Producten') }}
+            </x-responsive-nav-link>
+
         </div>
 
         <!-- Responsive Settings Options -->
