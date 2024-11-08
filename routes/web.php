@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;  
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UitleenmarktController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,6 +29,18 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+
+    Route::middleware(['auth', 'verified'])->group(function () {
+        // Admin dashboard route
+        Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    
+        // Routes voor het blokkeren/deblokkeren van gebruikers
+        Route::get('/admin/block/{id}', [AdminController::class, 'blockUser'])->name('admin.block');
+        Route::get('/admin/unblock/{id}', [AdminController::class, 'unblockUser'])->name('admin.unblock');
+        
+        // Route voor het verwijderen van producten
+        Route::delete('/admin/deleteProduct/{productId}', [AdminController::class, 'deleteProduct'])->name('admin.deleteProduct');
+    });
     
 
 Route::middleware('auth')->group(function () {

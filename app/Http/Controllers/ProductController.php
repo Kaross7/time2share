@@ -17,30 +17,28 @@ class ProductController extends Controller
             'loan_duration' => 'required|integer',
         ]);
     
-
         $product = new Product();
         $product->name = $request->input('product_name');
         $product->description = $request->input('product_description');
         $product->category = $request->input('product_category');
         $product->loan_duration = $request->input('loan_duration');
-    
-  
         $product->user_id = auth()->id(); 
+    
+        // Zet de status van het product op 'beschikbaar' bij het aanmaken
+        $product->status = 'beschikbaar';
     
         if ($request->hasFile('product_image')) {
             $imagePath = $request->file('product_image')->store('products', 'public');
-            
             $product->image = $imagePath;
         }
-        
-        
-        
-        
-        
+    
+        // Sla het product op
         $product->save();
     
+        // Redirect naar de pagina voor het beheren van producten met een succesmelding
         return redirect()->route('leen-jouw-producten')->with('success', 'Product succesvol toegevoegd!');
     }
+    
     
     public function destroy($id)
 {
