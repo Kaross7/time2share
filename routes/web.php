@@ -12,6 +12,16 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+Route::get('/uitleenmarkt', function () {
+    return view('uitleenmarkt');
+})->name('uitleenmarkt');
+
+
+Route::get('/leen-jouw-producten', function () {
+    return view('leen-jouw-producten');
+})->name('leen-jouw-producten');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
