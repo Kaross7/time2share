@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+
+
+class CreateProductsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('description');
+            $table->string('category');
+            $table->integer('loan_duration');
+            $table->string('image')->nullable(); // Om het pad van de afbeelding op te slaan
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Dit zorgt ervoor dat de user wordt gekoppeld
+            $table->timestamps();
+        });
+    }
+    
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('products');
+    }
+}
