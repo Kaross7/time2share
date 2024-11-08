@@ -1,0 +1,21 @@
+
+body {
+    font-family: 'Figtree', sans-serif;
+    background: linear-gradient(135deg, #4CAF50, #2196F3); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 100vh;
+    margin: 0;
+}
+
+
+.container {
+    padding: 4rem; 
+    border-radius: 15px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); 
+    max-width: 450px; 
+    width: 100%;
+    height: auto; 
+}
+
